@@ -4,7 +4,11 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 )
+
+const monitorateNumber = 2
+const delay = 3
 
 func main() {
 	var command int
@@ -42,18 +46,36 @@ func controlCommand(command int) {
 }
 
 func monitorate() {
-	var sites [4]string
-	sites[0] = "https://random-status-code.herokuapp.com/"
-	sites[1] = "https://alura.com.br/"
-	sites[2] = "https://caelum.com.br/"
-	sites[3] = "https://aprender3.unb.br/"
-	fmt.Println("Monitorando...")
-	response, _ := http.Get(sites[3])
+	sites := getSites()
 
+	fmt.Println("Monitorando...")
+
+	for i := 0; i < monitorateNumber; i++ {
+		for j, site := range sites {
+			fmt.Println("Testando site", j+1, ":", site)
+			testSite(site)
+		}
+		time.Sleep(delay * time.Second)
+		fmt.Println()
+	}
+
+}
+
+func getSites() []string {
+	sites := []string{}
+	sites = append(sites, "https://random-status-code.herokuapp.com/")
+	sites = append(sites, "https://alura.com.br/")
+	sites = append(sites, "https://caelum.com.br/")
+	sites = append(sites, "https://aprender3.unb.br/")
+	return sites
+}
+
+func testSite(site string) {
+	response, _ := http.Get(site)
 	if response.StatusCode == 200 {
-		fmt.Println("Site:", sites[3], "foi carregado com sucesso!")
+		fmt.Println("Site:", site, "foi carregado com sucesso!")
 	} else {
-		fmt.Println("Site:", sites[3], "está com problemas. Status Code:",
+		fmt.Println("Site:", site, "está com problemas. Status Code:",
 			response.StatusCode)
 	}
 }
