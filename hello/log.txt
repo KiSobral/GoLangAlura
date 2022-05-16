@@ -1,0 +1,12 @@
+16/05/2022 17:27:44 - https://random-status-code.herokuapp.com/- online: false
+16/05/2022 17:27:45 - https://alura.com.br/- online: true
+16/05/2022 17:27:46 - https://caelum.com.br/- online: true
+16/05/2022 17:27:47 - https://aprender3.unb.br/- online: true
+16/05/2022 17:27:47 - https://twitter.com/- online: true
+16/05/2022 17:27:47 - https://www.globo.com/- online: true
+16/05/2022 17:27:51 - https://random-status-code.herokuapp.com/- online: false
+16/05/2022 17:27:51 - https://alura.com.br/- online: true
+16/05/2022 17:27:52 - https://caelum.com.br/- online: true
+16/05/2022 17:27:53 - https://aprender3.unb.br/- online: true
+16/05/2022 17:27:53 - https://twitter.com/- online: true
+16/05/2022 17:27:53 - https://www.globo.com/- online: true

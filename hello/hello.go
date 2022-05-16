@@ -1,9 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -63,17 +67,23 @@ func monitorate() {
 
 func getSites() []string {
 	sites := []string{}
-	_, err := os.Open("sites.txt")
 
-	if err != nil {
-		fmt.Println("Ocorreu um erro:", err)
+	file, fileErr := os.Open("sites.txt")
+	if fileErr != nil {
+		fmt.Println("Ocorreu um erro:", fileErr)
 		return sites
 	}
 
-	sites = append(sites, "https://random-status-code.herokuapp.com/")
-	sites = append(sites, "https://alura.com.br/")
-	sites = append(sites, "https://caelum.com.br/")
-	sites = append(sites, "https://aprender3.unb.br/")
+	reader := bufio.NewReader(file)
+	for {
+		line, err := reader.ReadString('\n')
+		if err == io.EOF {
+			break
+		}
+		sites = append(sites, strings.TrimSpace(line))
+	}
+
+	file.Close()
 	return sites
 }
 
@@ -87,8 +97,23 @@ func testSite(site string) {
 
 	if response.StatusCode == 200 {
 		fmt.Println("Site:", site, "foi carregado com sucesso!")
+		registerLog(site, true)
 	} else {
 		fmt.Println("Site:", site, "está com problemas. Status Code:",
 			response.StatusCode)
+		registerLog(site, false)
 	}
+}
+
+func registerLog(site string, status bool) {
+	message := time.Now().Format("02/01/2006 15:04:05") + " - " + site +
+		"- online: " + strconv.FormatBool(status) + "\n"
+
+	file, err := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Println("Ocorreu um erro:", err)
+	}
+
+	file.WriteString(message)
+	file.Close()
 }
