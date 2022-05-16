@@ -63,6 +63,13 @@ func monitorate() {
 
 func getSites() []string {
 	sites := []string{}
+	_, err := os.Open("sites.txt")
+
+	if err != nil {
+		fmt.Println("Ocorreu um erro:", err)
+		return sites
+	}
+
 	sites = append(sites, "https://random-status-code.herokuapp.com/")
 	sites = append(sites, "https://alura.com.br/")
 	sites = append(sites, "https://caelum.com.br/")
@@ -71,7 +78,13 @@ func getSites() []string {
 }
 
 func testSite(site string) {
-	response, _ := http.Get(site)
+	response, err := http.Get(site)
+
+	if err != nil {
+		fmt.Println("Ocorreu um erro:", err)
+		return
+	}
+
 	if response.StatusCode == 200 {
 		fmt.Println("Site:", site, "foi carregado com sucesso!")
 	} else {
