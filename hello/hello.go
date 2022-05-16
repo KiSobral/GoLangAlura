@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
@@ -36,11 +37,15 @@ func controlCommand(command int) {
 	case 1:
 		monitorate()
 	case 2:
-		fmt.Println("Exibindo logs...")
+		printLogs()
 	case 0:
+		fmt.Println()
+		fmt.Println()
 		fmt.Println("Saindo do programa")
 		os.Exit(0)
 	default:
+		fmt.Println()
+		fmt.Println()
 		fmt.Println("Não conheço este comando")
 		os.Exit(-1)
 	}
@@ -116,4 +121,16 @@ func registerLog(site string, status bool) {
 
 	file.WriteString(message)
 	file.Close()
+}
+
+func printLogs() {
+	file, err := ioutil.ReadFile("log.txt")
+
+	if err != nil {
+		println("Ocorreu um erro:", err)
+		return
+	}
+	fmt.Println("Exibindo logs...")
+	fmt.Println()
+	fmt.Println(string(file))
 }
