@@ -1,12 +1,15 @@
 package contas
 
-import "fmt"
+import (
+	"GoLangAlura/bank/clientes"
+	"fmt"
+)
 
 type ContaCorrente struct {
-	Titular       string
+	Titular       clientes.Cliente
 	NumeroAgencia int
 	NumeroConta   int
-	Saldo         float64
+	saldo         float64
 }
 
 func (c *ContaCorrente) Saque(valor float64) {
@@ -16,15 +19,15 @@ func (c *ContaCorrente) Saque(valor float64) {
 		return
 	}
 
-	if !(valor <= c.Saldo) {
+	if !(valor <= c.saldo) {
 		fmt.Println("Erro!")
-		fmt.Println("Valor maior do que o Saldo!")
+		fmt.Println("Valor maior do que o saldo!")
 		return
 	}
 
-	fmt.Println("Saldo antes do saque:  R$", c.Saldo)
-	c.Saldo -= valor
-	fmt.Println("Saldo depois do saque: R$", c.Saldo)
+	fmt.Println("saldo antes do saque:  R$", c.saldo)
+	c.saldo -= valor
+	fmt.Println("saldo depois do saque: R$", c.saldo)
 
 	fmt.Println("Saque de", valor, " reais realizado com sucesso!")
 }
@@ -36,9 +39,9 @@ func (c *ContaCorrente) Depositar(valor float64) {
 		return
 	}
 
-	fmt.Println("Saldo antes do depósito:  R$", c.Saldo)
-	c.Saldo += valor
-	fmt.Println("Saldo depois do depósito: R$", c.Saldo)
+	fmt.Println("saldo antes do depósito:  R$", c.saldo)
+	c.saldo += valor
+	fmt.Println("saldo depois do depósito: R$", c.saldo)
 
 	fmt.Println("Depósito de", valor, " reais realizado com sucesso!")
 }
@@ -50,18 +53,22 @@ func (c *ContaCorrente) Transferencia(destino *ContaCorrente, valor float64) {
 		return
 	}
 
-	if !(valor <= c.Saldo) {
+	if !(valor <= c.saldo) {
 		fmt.Println("Erro!")
-		fmt.Println("Valor maior do que o Saldo!")
+		fmt.Println("Valor maior do que o saldo!")
 		return
 	}
 
-	fmt.Println("Saldo origem antes da transferência:  R$", c.Saldo)
-	fmt.Println("Saldo destino antes da transferência:  R$", destino.Saldo)
-	c.Saldo -= valor
-	destino.Saldo += valor
-	fmt.Println("Saldo origem depois do depósito: R$", c.Saldo)
-	fmt.Println("Saldo destino depois do depósito: R$", destino.Saldo)
+	fmt.Println("saldo origem antes da transferência:  R$", c.saldo)
+	fmt.Println("saldo destino antes da transferência:  R$", destino.saldo)
+	c.saldo -= valor
+	destino.saldo += valor
+	fmt.Println("saldo origem depois do depósito: R$", c.saldo)
+	fmt.Println("saldo destino depois do depósito: R$", destino.saldo)
 
 	fmt.Println("Transferência de", valor, " reais entre as contas de", c.Titular, "e", destino.Titular, "realizada com sucesso!")
+}
+
+func (c *ContaCorrente) VisualizarSaldo() float64 {
+	return c.saldo
 }

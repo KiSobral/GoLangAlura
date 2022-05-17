@@ -1,21 +1,22 @@
 package main
 
-import "GoLangAlura/bank/contas"
+import (
+	"GoLangAlura/bank/clientes"
+	"GoLangAlura/bank/contas"
+	"fmt"
+)
 
 func main() {
-	conta1 := contas.ContaCorrente{
-		Titular:       "Hugo",
-		NumeroAgencia: 589,
-		NumeroConta:   123456,
-		Saldo:         530,
+	clienteBruno := clientes.Cliente{
+		Nome:      "Bruno",
+		CPF:       "01234567890",
+		Profissao: "Desenvolvedor",
 	}
-
-	conta2 := contas.ContaCorrente{
-		Titular:       "Maria",
-		NumeroAgencia: 632,
-		NumeroConta:   654321,
-		Saldo:         360,
+	contaDoBruno := contas.ContaCorrente{
+		Titular: clienteBruno, NumeroAgencia: 123,
+		NumeroConta: 123456,
 	}
-
-	conta1.Transferencia(&conta2, 85)
+	fmt.Println(contaDoBruno.VisualizarSaldo())
+	contaDoBruno.Depositar(500)
+	fmt.Println(contaDoBruno.VisualizarSaldo())
 }
