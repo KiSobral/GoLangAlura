@@ -43,3 +43,15 @@ func GetAllProducts() []Produto {
 	defer db.Close()
 	return produtos
 }
+
+func CreateNewProduct(nome string, descricao string, preco float64, quantidade int) {
+	db := db.ConnectToDatabase()
+
+	insertOnDatabase, err := db.Prepare("INSERT INTO produtos (nome, descricao, preco, quantidade) VALUES($1, $2, $3, $4)")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	insertOnDatabase.Exec(nome, descricao, preco, quantidade)
+	defer db.Close()
+}
