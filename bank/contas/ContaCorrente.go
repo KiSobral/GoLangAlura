@@ -66,7 +66,7 @@ func (c *ContaCorrente) Transferencia(destino *ContaCorrente, valor float64) {
 	fmt.Println("saldo origem depois do depósito: R$", c.saldo)
 	fmt.Println("saldo destino depois do depósito: R$", destino.saldo)
 
-	fmt.Println("Transferência de", valor, " reais entre as contas de", c.Titular, "e", destino.Titular, "realizada com sucesso!")
+	fmt.Println("Transferência de", valor, " reais entre as contas de", c.Titular.Nome, "e", destino.Titular.Nome, "realizada com sucesso!")
 }
 
 func (c *ContaCorrente) VisualizarSaldo() float64 {
