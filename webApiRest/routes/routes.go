@@ -4,10 +4,13 @@ import (
 	"GoLangAlura/webApiRest/controllers"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func HandleRequest() {
-	http.HandleFunc("/", controllers.Home)
-	http.HandleFunc("/api/personalidades", controllers.TodasPersonalidades)
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	router := mux.NewRouter()
+	router.HandleFunc("/", controllers.Home)
+	router.HandleFunc("/api/personalidades", controllers.TodasPersonalidades)
+	log.Fatal(http.ListenAndServe(":8000", router))
 }
