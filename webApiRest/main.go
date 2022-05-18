@@ -8,8 +8,8 @@ import (
 
 func main() {
 	models.Personalidades = []models.Personalidade{
-		{Nome: "Maria", Historia: "A maior bióloga do Brasil"},
-		{Nome: "Eduarda", Historia: "A maior artista do Brasil"},
+		{Id: 1, Nome: "Maria", Historia: "A maior bióloga do Brasil"},
+		{Id: 2, Nome: "Eduarda", Historia: "A maior artista do Brasil"},
 	}
 	fmt.Println("Iniciando o servidor Rest com Go")
 	routes.HandleRequest()
