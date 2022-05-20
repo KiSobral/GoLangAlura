@@ -22,6 +22,20 @@ func ReadAll(c *gin.Context) {
 	c.JSON(200, alunos)
 }
 
+func ReadOne(c *gin.Context) {
+	id := c.Params.ByName("id")
+	var aluno models.Aluno
+	database.DB.First(&aluno, id)
+
+	if aluno.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Not found": "Aluno não encontrado"})
+		return
+	}
+
+	c.JSON(http.StatusOK, aluno)
+}
+
 func Create(c *gin.Context) {
 	var aluno models.Aluno
 
