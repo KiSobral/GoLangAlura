@@ -60,3 +60,24 @@ func Delete(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"Sucesso": "Aluno deletado"})
 }
+
+func Update(c *gin.Context) {
+	id := c.Params.ByName("id")
+	var aluno models.Aluno
+	database.DB.First(&aluno, id)
+
+	if aluno.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Not found": "Aluno não encontrado"})
+		return
+	}
+
+	if err := c.ShouldBindJSON(&aluno); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
+
+	database.DB.Model(&aluno).UpdateColumns(aluno)
+	c.JSON(http.StatusOK, aluno)
+}
