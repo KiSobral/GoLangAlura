@@ -9,13 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Hello(c *gin.Context) {
-	nome := c.Params.ByName("nome")
-	c.JSON(200, gin.H{
-		"API says:": "Hello " + nome,
-	})
-}
-
 func ReadAll(c *gin.Context) {
 	var alunos []models.Aluno
 	database.DB.Find(&alunos)
@@ -79,5 +72,19 @@ func Update(c *gin.Context) {
 	}
 
 	database.DB.Model(&aluno).UpdateColumns(aluno)
+	c.JSON(http.StatusOK, aluno)
+}
+
+func SearchByCPF(c *gin.Context) {
+	cpf := c.Param("cpf")
+	var aluno models.Aluno
+	database.DB.Where(&models.Aluno{CPF: cpf}).First(&aluno)
+
+	if aluno.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Not found": "Aluno não encontrado"})
+		return
+	}
+
 	c.JSON(http.StatusOK, aluno)
 }

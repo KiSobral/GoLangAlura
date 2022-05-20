@@ -8,10 +8,11 @@ import (
 
 func HandleRequest() {
 	r := gin.Default()
-	r.GET("/alunos", controllers.ReadAll)
 	r.POST("/alunos", controllers.Create)
+	r.GET("/alunos", controllers.ReadAll)
 	r.GET("/alunos/:id", controllers.ReadOne)
-	r.DELETE("/alunos/:id", controllers.Delete)
+	r.GET("/alunos/cpf/:cpf", controllers.SearchByCPF)
 	r.PATCH("/alunos/:id", controllers.Update)
+	r.DELETE("/alunos/:id", controllers.Delete)
 	r.Run()
 }
