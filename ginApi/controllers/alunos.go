@@ -8,6 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func Hello(c *gin.Context) {
+	nome := c.Param("nome")
+	c.JSON(http.StatusOK, gin.H{
+		"API says": "Hello " + nome})
+}
+
 func ReadAll(c *gin.Context) {
 	var alunos []models.Aluno
 	database.DB.Find(&alunos)
