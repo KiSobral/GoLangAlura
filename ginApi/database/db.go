@@ -1,6 +1,7 @@
 package database
 
 import (
+	"GoLangAlura/ginApi/models"
 	"log"
 
 	"gorm.io/driver/postgres"
@@ -18,4 +19,5 @@ func ConnectToDatabase() {
 	if err != nil {
 		log.Panic("Erro ao conectar com banco de dados")
 	}
+	DB.AutoMigrate(&models.Aluno{})
 }
