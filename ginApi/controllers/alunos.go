@@ -3,7 +3,6 @@ package controllers
 import (
 	"GoLangAlura/ginApi/database"
 	"GoLangAlura/ginApi/models"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -32,10 +31,14 @@ func ReadOne(c *gin.Context) {
 func Create(c *gin.Context) {
 	var aluno models.Aluno
 
-	fmt.Println("AAAAAAAAAAAAAAAA")
-
 	if err := c.ShouldBindJSON(&aluno); err != nil {
 
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
+
+	if err := models.ValidaDadosDeAlunos(&aluno); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error()})
 		return
@@ -66,6 +69,12 @@ func Update(c *gin.Context) {
 	}
 
 	if err := c.ShouldBindJSON(&aluno); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
+
+	if err := models.ValidaDadosDeAlunos(&aluno); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error()})
 		return
